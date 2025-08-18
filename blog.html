@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Pappa Fresh</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body data-page="blog">
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="bi bi-heart-fill"></i> Pappa Fresh
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="products.html" data-i18n="nav.products">Prodotti</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="trial.html" data-i18n="nav.trial">Box Prova</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="faq.html" data-i18n="nav.faq">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="chat.html" data-i18n="nav.chat">Assistenza</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html" data-i18n="nav.contact">Contatti</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="blog.html" data-i18n="nav.blog">Blog</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link position-relative" href="cart.html">
+                            <i class="bi bi-cart3"></i>
+                            <span id="cart-badge" class="cart-badge d-none">0</span>
+                        </a>
+                    </li>
+                    <li class="nav-item ms-3 d-flex align-items-center">
+                        <span class="lang-switch active" data-lang="it">IT</span>
+                        <span class="mx-2">|</span>
+                        <span class="lang-switch" data-lang="en">EN</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <section class="bg-light py-5">
+        <div class="container">
+            <div class="text-center">
+                <h1 class="display-4" data-i18n="blog.title">Il Blog di Pappa Fresh</h1>
+                <p class="fs-5 text-muted" data-i18n="blog.subtitle">Consigli e curiosità sul mondo dei cani</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Posts -->
+    <section class="section-padding">
+        <div class="container">
+            <!-- Featured Post -->
+            <div class="row mb-5">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="row g-0">
+                            <div class="col-md-6">
+                                <img src="https://images.unsplash.com/photo-1560807707-8cc77767d783?w=600&h=400&fit=crop" 
+                                     class="img-fluid rounded-start h-100 object-fit-cover" alt="Happy dog eating">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card-body p-5">
+                                    <span class="blog-category">In Evidenza</span>
+                                    <h2 class="card-title mt-3">La Guida Completa alla Transizione al Cibo Fresco</h2>
+                                    <p class="card-text">Scopri come passare gradualmente dal cibo secco a Pappa Fresh in modo sicuro e senza stress per il tuo cane. I nostri veterinari spiegano il processo passo dopo passo.</p>
+                                    <p class="blog-meta">
+                                        <i class="bi bi-person me-2"></i>Dr. Marco Rossi
+                                        <i class="bi bi-calendar ms-3 me-2"></i>20 Gennaio 2024
+                                        <i class="bi bi-clock ms-3 me-2"></i>5 min lettura
+                                    </p>
+                                    <a href="#" class="btn btn-primary">
+                                        Leggi di più <i class="bi bi-arrow-right ms-2"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Categories -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="d-flex flex-wrap gap-2 justify-content-center">
+                        <button class="btn btn-outline-primary active">Tutti</button>
+                        <button class="btn btn-outline-primary">Nutrizione</button>
+                        <button class="btn btn-outline-primary">Salute</button>
+                        <button class="btn btn-outline-primary">Consigli</button>
+                        <button class="btn btn-outline-primary">Ricette</button>
+                        <button class="btn btn-outline-primary">Storie</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Blog Grid -->
+            <div class="row g-4" id="blog-posts-container">
+                <div class="col-lg-4 col-md-6">
+                    <div class="card blog-card h-100">
+                        <img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=400&h=250&fit=crop" 
+                             class="card-img-top" alt="Happy dog">
+                        <div class="card-body">
+                            <span class="blog-category">Nutrizione</span>
+                            <h5 class="card-title mt-2">I Benefici del Cibo Fresco per la Digestione</h5>
+                            <p class="card-text">Perché sempre più veterinari consigliano l'alimentazione fresca? Scopri tutti i vantaggi per la salute digestiva del tuo cane.</p>
+                            <p class="blog-meta">
+                                <i class="bi bi-calendar me-2"></i>15 Gennaio 2024
+                                <i class="bi bi-clock ms-3 me-2"></i>3 min
+                            </p>
+                            <a href="#" class="btn btn-outline-primary" data-i18n="blog.readmore">
+                                Leggi di più <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card blog-card h-100">
+                        <img src="https://images.unsplash.com/photo-1477884213360-7e9d7dcc1e48?w=400&h=250&fit=crop" 
+                             class="card-img-top" alt="Different dog breeds">
+                        <div class="card-body">
+                            <span class="blog-category">Guide</span>
+                            <h5 class="card-title mt-2">Razze e Alimentazione: Guida Completa</h5>
+                            <p class="card-text">Ogni razza ha esigenze nutrizionali diverse. Scopri quelle del tuo cane e come personalizzare la sua dieta.</p>
+                            <p class="blog-meta">
+                                <i class="bi bi-calendar me-2"></i>10 Gennaio 2024
+                                <i class="bi bi-clock ms-3 me-2"></i>7 min
+                            </p>
+                            <a href="#" class="btn btn-outline-primary" data-i18n="blog.readmore">
+                                Leggi di più <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card blog-card h-100">
+                        <img src="https://images.unsplash.com/photo-1534361960057-19889db9621e?w=400&h=250&fit=crop" 
+                             class="card-img-top" alt="Dog at vet">
+                        <div class="card-body">
+                            <span class="blog-category">Salute</span>
+                            <h5 class="card-title mt-2">Come Riconoscere le Allergie Alimentari</h5>
+                            <p class="card-text">Sintomi, diagnosi e soluzioni per gestire le intolleranze alimentari del tuo amico a quattro zampe.</p>
+                            <p class="blog-meta">
+                                <i class="bi bi-calendar me-2"></i>5 Gennaio 2024
+                                <i class="bi bi-clock ms-3 me-2"></i>4 min
+                            </p>
+                            <a href="#" class="btn btn-outline-primary" data-i18n="blog.readmore">
+                                Leggi di più <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card blog-card h-100">
+                        <img src="https://images.unsplash.com/photo-1544568100-847a948585b9?w=400&h=250&fit=crop" 
+                             class="card-img-top" alt="Dog with food bowl">
+                        <div class="card-body">
+                            <span class="blog-category">Consigli</span>
+                            <h5 class="card-title mt-2">10 Trucchi per Far Mangiare il Cane Schizzinoso</h5>
+                            <p class="card-text">Il tuo cane è difficile con il cibo? Ecco i consigli dei nostri esperti per rendere i pasti più appetitosi.</p>
+                            <p class="blog-meta">
+                                <i class="bi bi-calendar me-2"></i>28 Dicembre 2023
+                                <i class="bi bi-clock ms-3 me-2"></i>5 min
+                            </p>
+                            <a href="#" class="btn btn-outline-primary" data-i18n="blog.readmore">
+                                Leggi di più <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card blog-card h-100">
+                        <img src="https://images.unsplash.com/photo-1514373941175-0a141072bbc8?w=400&h=250&fit=crop" 
+                             class="card-img-top" alt="Active dog running">
+                        <div class="card-body">
+                            <span class="blog-category">Storie</span>
+                            <h5 class="card-title mt-2">La Storia di Max: Da Sovrappeso a Super Attivo</h5>
+                            <p class="card-text">Come Pappa Fresh ha aiutato Max a perdere 8 kg e ritrovare la sua energia. Una storia di trasformazione.</p>
+                            <p class="blog-meta">
+                                <i class="bi bi-calendar me-2"></i>20 Dicembre 2023
+                                <i class="bi bi-clock ms-3 me-2"></i>6 min
+                            </p>
+                            <a href="#" class="btn btn-outline-primary" data-i18n="blog.readmore">
+                                Leggi di più <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <div class="card blog-card h-100">
+                        <img src="https://images.unsplash.com/photo-1598133894008-61f7fdb8cc3a?w=400&h=250&fit=crop" 
+                             class="card-img-top" alt="Dog treats">
+                        <div class="card-body">
+                            <span class="blog-category">Ricette</span>
+                            <h5 class="card-title mt-2">Snack Fatti in Casa: 5 Ricette Semplici</h5>
+                            <p class="card-text">Prepara deliziosi e salutari snack per il tuo cane con ingredienti naturali che hai già in casa.</p>
+                            <p class="blog-meta">
+                                <i class="bi bi-calendar me-2"></i>15 Dicembre 2023
+                                <i class="bi bi-clock ms-3 me-2"></i>4 min
+                            </p>
+                            <a href="#" class="btn btn-outline-primary" data-i18n="blog.readmore">
+                                Leggi di più <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div class="row mt-5">
+                <div class="col-12">
+                    <nav aria-label="Blog pagination">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">Precedente</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Successivo</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Newsletter CTA -->
+    <section class="section-padding bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6 text-center">
+                    <h3>Non Perdere i Nostri Consigli</h3>
+                    <p class="text-muted mb-4">Iscriviti alla newsletter per ricevere articoli e offerte esclusive</p>
+                    <form class="d-flex gap-2">
+                        <input type="email" class="form-control" placeholder="La tua email" required>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-envelope me-2"></i>Iscriviti
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="footer-logo">
+                        <i class="bi bi-heart-fill"></i> Pappa Fresh
+                    </div>
+                    <p class="text-white-50" data-i18n="footer.about.text">
+                        Pappa Fresh è il primo servizio italiano di cibo fresco per cani, preparato con ingredienti di qualità umana e consegnato a domicilio.
+                    </p>
+                    <div class="social-links">
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-twitter"></i></a>
+                        <a href="#"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 data-i18n="footer.links">Link Utili</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="products.html" data-i18n="nav.products">Prodotti</a></li>
+                        <li><a href="trial.html" data-i18n="nav.trial">Box Prova</a></li>
+                        <li><a href="faq.html" data-i18n="nav.faq">FAQ</a></li>
+                        <li><a href="chat.html" data-i18n="nav.chat">Assistenza</a></li>
+                        <li><a href="contact.html" data-i18n="nav.contact">Contatti</a></li>
+                        <li><a href="blog.html" data-i18n="nav.blog">Blog</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5>Informazioni</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Chi Siamo</a></li>
+                        <li><a href="#">Come Funziona</a></li>
+                        <li><a href="#">Spedizioni</a></li>
+                        <li><a href="#">Termini e Condizioni</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <h5 data-i18n="footer.newsletter">Newsletter</h5>
+                    <p class="text-white-50" data-i18n="footer.newsletter.text">
+                        Iscriviti per ricevere consigli e offerte esclusive
+                    </p>
+                    <form id="newsletter-form">
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" id="newsletter-email" 
+                                   data-i18n-placeholder="footer.newsletter.placeholder" 
+                                   placeholder="La tua email" required>
+                            <button class="btn btn-primary" type="submit" data-i18n="footer.newsletter.button">
+                                Iscriviti
+                            </button>
+                        </div>
+                    </form>
+                    <p class="text-white-50 small">
+                        <i class="bi bi-shield-check me-2"></i>100% sicuro e senza spam
+                    </p>
+                </div>
+            </div>
+            
+            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
+            
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="mb-0 text-white-50">
+                        © 2024 Pappa Fresh. <span data-i18n="footer.rights">Tutti i diritti riservati</span>.
+                    </p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <p class="mb-0 text-white-50">
+                        Made with <i class="bi bi-heart-fill text-danger"></i> in Milano, Italia
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="script.js"></script>
+</body>
+</html>
