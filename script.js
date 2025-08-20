@@ -873,7 +873,7 @@ function loadCheckoutItems(purchaseType = 'single') {
 }
 
 // Process payment (mock function)
-function processPayment() {
+async function processPayment() {
     const button = document.getElementById('complete-order');
     const buttonText = document.getElementById('button-text');
     const spinner = document.getElementById('spinner');
@@ -888,8 +888,37 @@ function processPayment() {
     // Check terms acceptance
     const terms = document.getElementById('terms');
     if (!terms.checked) {
-        alert('Devi accettare i termini e condizioni per procedere');
+        // Show a more user-friendly error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'alert alert-danger mt-3';
+        errorDiv.innerHTML = '<i class="bi bi-exclamation-triangle me-2"></i>Devi accettare i termini e condizioni per procedere con l\'ordine.';
+        
+        // Remove any existing error messages
+        const existingError = document.querySelector('.alert-danger');
+        if (existingError) {
+            existingError.remove();
+        }
+        
+        // Add error message after the terms checkbox
+        terms.closest('.card').appendChild(errorDiv);
+        
+        // Scroll to error
+        errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Remove error after 5 seconds
+        setTimeout(() => {
+            if (errorDiv.parentNode) {
+                errorDiv.remove();
+            }
+        }, 5000);
+        
         return;
+    }
+    
+    // Remove any existing error messages
+    const existingError = document.querySelector('.alert-danger');
+    if (existingError) {
+        existingError.remove();
     }
     
     // Show loading state
@@ -897,14 +926,74 @@ function processPayment() {
     if (buttonText) buttonText.textContent = 'Elaborazione...';
     if (spinner) spinner.classList.remove('d-none');
     
-    // Simulate payment processing
-    setTimeout(() => {
-        // Clear cart
-        localStorage.removeItem('pappa-cart');
+    try {
+        // Get the active payment method
+        const activeTab = document.querySelector('.nav-link.active').id;
         
-        // Redirect to success page
-        window.location.href = 'order-success.html';
-    }, 2000);
+        let paymentSuccess = false;
+        
+        if (activeTab === 'card-tab') {
+            // Handle card payment with Stripe
+            if (typeof stripe !== 'undefined' && typeof cardElement !== 'undefined') {
+                const {token, error} = await stripe.createToken(cardElement);
+                
+                if (error) {
+                    throw new Error(error.message);
+                } else {
+                    // In a real implementation, you would send the token to your server
+                    console.log('Payment token:', token.id);
+                    paymentSuccess = true;
+                }
+            } else {
+                // Fallback for demo purposes
+                paymentSuccess = true;
+            }
+        } else if (activeTab === 'paypal-tab') {
+            // Handle PayPal payment (mock)
+            paymentSuccess = true;
+        } else if (activeTab === 'link-tab') {
+            // Handle Link payment (mock)
+            paymentSuccess = true;
+        }
+        
+        if (paymentSuccess) {
+            // Simulate processing time
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            
+            // Clear cart
+            localStorage.removeItem('pappa-cart');
+            
+            // Redirect to success page
+            window.location.href = 'order-success.html';
+        }
+        
+    } catch (error) {
+        // Handle payment error
+        console.error('Payment error:', error);
+        
+        // Reset button state
+        if (button) button.disabled = false;
+        if (buttonText) buttonText.textContent = 'Completa Ordine';
+        if (spinner) spinner.classList.add('d-none');
+        
+        // Show error message
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'alert alert-danger mt-3';
+        errorDiv.innerHTML = `<i class="bi bi-exclamation-triangle me-2"></i>Errore nel pagamento: ${error.message}. Riprova o contatta l'assistenza.`;
+        
+        // Add error message
+        button.parentNode.appendChild(errorDiv);
+        
+        // Scroll to error
+        errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // Remove error after 8 seconds
+        setTimeout(() => {
+            if (errorDiv.parentNode) {
+                errorDiv.remove();
+            }
+        }, 8000);
+    }
 }
 
 // Chat functionality

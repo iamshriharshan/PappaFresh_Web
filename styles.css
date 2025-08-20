@@ -692,6 +692,56 @@ footer .list-unstyled li {
     top: 100px;
 }
 
+/* Checkout Specific Styles */
+#card-element {
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background: white;
+}
+
+#card-element.StripeElement--focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(139, 195, 74, 0.25);
+}
+
+#card-element.StripeElement--invalid {
+    border-color: #dc3545;
+}
+
+#card-errors {
+    font-size: 14px;
+    margin-top: 8px;
+}
+
+.payment-method-icon {
+    width: 30px;
+    height: 20px;
+    object-fit: contain;
+}
+
+/* Loading state for payment button */
+#complete-order:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Alert animations */
+.alert {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     .display-1 { font-size: 2.5rem; }
@@ -731,5 +781,15 @@ footer .list-unstyled li {
     
     .social-links {
         justify-content: center;
+    }
+    
+    /* Mobile checkout adjustments */
+    .order-summary {
+        position: static;
+        margin-top: 2rem;
+    }
+    
+    #card-element {
+        font-size: 16px; /* Prevent zoom on iOS */
     }
 }

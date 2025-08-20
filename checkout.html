@@ -272,16 +272,24 @@
                         
                         <!-- Complete Order Button -->
                         <button id="complete-order" class="btn btn-primary w-100 btn-lg" onclick="processPayment()">
-                            <span id="button-text">Completa Ordine</span>
+                            <span id="button-text">
+                                <i class="bi bi-credit-card me-2"></i>Completa Ordine
+                            </span>
                             <span id="spinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status">
                                 <span class="visually-hidden">Processing...</span>
                             </span>
                         </button>
                         
+                        <div class="text-center mt-2">
+                            <small class="text-muted">
+                                Il pagamento è sicuro e protetto
+                            </small>
+                        </div>
+                        
                         <!-- Security -->
                         <div class="text-center mt-3">
                             <small class="text-muted">
-                                <i class="bi bi-shield-check me-1"></i>Pagamento sicuro con SSL
+                                <i class="bi bi-shield-check me-1 text-success"></i>Pagamento sicuro con crittografia SSL
                             </small>
                         </div>
                         
@@ -310,9 +318,8 @@
     <!-- Custom JS -->
     <script src="script.js"></script>
     <script>
-        // Initialize Stripe
-        // INSERIRE QUI LA TUA STRIPE PUBLIC KEY
-        const stripe = Stripe('pk_test_YOUR_STRIPE_PUBLIC_KEY');
+        // Initialize Stripe with demo key (replace with your actual key)
+        const stripe = Stripe('pk_test_51234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef12');
         const elements = stripe.elements();
         
         // Create card element
@@ -321,6 +328,8 @@
                 base: {
                     fontSize: '16px',
                     color: '#424770',
+                    fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+                    fontSmoothing: 'antialiased',
                     '::placeholder': {
                         color: '#aab7c4',
                     },
@@ -343,6 +352,22 @@
                 displayError.textContent = '';
             }
         });
+        
+        // Handle form submission
+        async function handleCardPayment() {
+            const {token, error} = await stripe.createToken(cardElement);
+            
+            if (error) {
+                // Show error to customer
+                const errorElement = document.getElementById('card-errors');
+                errorElement.textContent = error.message;
+                return false;
+            } else {
+                // Token created successfully, proceed with payment
+                console.log('Payment token created:', token.id);
+                return true;
+            }
+        }
         
         // Load checkout data on page load
         document.addEventListener('DOMContentLoaded', function() {
