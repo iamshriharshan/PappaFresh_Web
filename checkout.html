@@ -9,345 +9,90 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="styles.css">
     <!-- Stripe -->
     <script src="https://js.stripe.com/v3/"></script>
 </head>
 <body data-page="checkout">
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-light">
-        <div class="container">
-            <a class="navbar-brand" href="index.html">
-                <i class="bi bi-heart-fill"></i> Pappa Fresh
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="products.html">Prodotti</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="cart.html">
-                            <i class="bi bi-cart3"></i>
-                            <span id="cart-badge" class="cart-badge d-none">0</span>
-                        </a>
-                    </li>
-                    <li class="nav-item ms-3 d-flex align-items-center">
-                        <span class="lang-switch active" data-lang="it">IT</span>
-                        <span class="mx-2">|</span>
-                        <span class="lang-switch" data-lang="en">EN</span>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Checkout Steps -->
-    <div class="bg-light py-3">
-        <div class="container">
-            <div class="d-flex justify-content-center align-items-center">
-                <span class="text-muted">Carrello</span>
-                <i class="bi bi-chevron-right mx-2 text-muted"></i>
-                <span class="fw-bold text-primary">Checkout</span>
-                <i class="bi bi-chevron-right mx-2 text-muted"></i>
-                <span class="text-muted">Conferma</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Checkout Content -->
+    <!-- Simplified for clarity, keep your existing layout -->
     <div class="container my-5">
         <div class="row">
-            <!-- Left Column - Forms -->
             <div class="col-lg-8">
-                <!-- Purchase Type Alert -->
-                <div id="purchase-type-alert" class="alert alert-info mb-4">
-                    <i class="bi bi-info-circle me-2"></i>
-                    <span id="purchase-type-text">Acquisto Singolo</span>
+                <!-- Shipping Form -->
+                <form id="shipping-form">
+                    <div class="mb-3">
+                        <label class="form-label">Nome *</label>
+                        <input type="text" class="form-control" id="firstName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Cognome *</label>
+                        <input type="text" class="form-control" id="lastName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Email *</label>
+                        <input type="email" class="form-control" id="email" required>
+                    </div>
+                </form>
+
+                <!-- Card Payment -->
+                <h5 class="mt-4">Metodo di Pagamento</h5>
+                <div id="card-element" class="form-control" style="height:50px; padding-top:14px;"></div>
+                <div id="card-errors" class="text-danger mt-2"></div>
+
+                <!-- Terms -->
+                <div class="form-check mt-3">
+                    <input class="form-check-input" type="checkbox" id="terms" required>
+                    <label class="form-check-label" for="terms">
+                        Accetto i Termini e Condizioni *
+                    </label>
                 </div>
 
-                <!-- Shipping Information -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">
-                            <span class="badge bg-primary rounded-circle me-2">1</span>
-                            Informazioni di Spedizione
-                        </h5>
-                        
-                        <form id="shipping-form">
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Nome *</label>
-                                    <input type="text" class="form-control" id="firstName" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label">Cognome *</label>
-                                    <input type="text" class="form-control" id="lastName" required>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label">Email *</label>
-                                <input type="email" class="form-control" id="email" required>
-                                <small class="text-muted">Ti invieremo la conferma dell'ordine a questo indirizzo</small>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label">Telefono *</label>
-                                <input type="tel" class="form-control" id="phone" required>
-                                <small class="text-muted">Per comunicazioni sulla consegna</small>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label">Indirizzo *</label>
-                                <input type="text" class="form-control" id="address" required>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label">CAP *</label>
-                                    <input type="text" class="form-control" id="postalCode" required>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label">Città *</label>
-                                    <input type="text" class="form-control" id="city" required>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label class="form-label">Provincia *</label>
-                                    <input type="text" class="form-control" id="province" maxlength="2" required>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label">Note per la consegna (opzionale)</label>
-                                <textarea class="form-control" id="notes" rows="2"></textarea>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Payment Method -->
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">
-                            <span class="badge bg-primary rounded-circle me-2">2</span>
-                            Metodo di Pagamento
-                        </h5>
-                        
-                        <!-- Payment Tabs -->
-                        <ul class="nav nav-tabs mb-4" id="paymentTabs" role="tablist">
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link active" id="card-tab" data-bs-toggle="tab" data-bs-target="#card" type="button">
-                                    <i class="bi bi-credit-card me-2"></i>Carta
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="paypal-tab" data-bs-toggle="tab" data-bs-target="#paypal" type="button">
-                                    <i class="bi bi-paypal me-2"></i>PayPal
-                                </button>
-                            </li>
-                            <li class="nav-item" role="presentation">
-                                <button class="nav-link" id="link-tab" data-bs-toggle="tab" data-bs-target="#link" type="button">
-                                    <i class="bi bi-link-45deg me-2"></i>Link
-                                </button>
-                            </li>
-                        </ul>
-                        
-                        <div class="tab-content" id="paymentTabContent">
-                            <!-- Card Payment -->
-                            <div class="tab-pane fade show active" id="card" role="tabpanel">
-                                <div id="card-element-container">
-                                    <!-- Stripe Card Element will be mounted here -->
-                                    <div id="card-element" class="form-control" style="height: 50px; padding-top: 14px;"></div>
-                                    <div id="card-errors" class="text-danger mt-2" role="alert"></div>
-                                </div>
-                                
-                                <div class="mt-3">
-                                    <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" id="saveCard">
-                                        <label class="form-check-label" for="saveCard">
-                                            Salva carta per futuri acquisti
-                                        </label>
-                                    </div>
-                                </div>
-                                
-                                <!-- Accepted Cards -->
-                                <div class="mt-3">
-                                    <small class="text-muted">Accettiamo:</small>
-                                    <div class="d-flex gap-2 mt-1">
-                                        <img src="https://img.icons8.com/color/48/000000/visa.png" alt="Visa" height="30">
-                                        <img src="https://img.icons8.com/color/48/000000/mastercard.png" alt="Mastercard" height="30">
-                                        <img src="https://img.icons8.com/color/48/000000/amex.png" alt="Amex" height="30">
-                                        <img src="https://img.icons8.com/color/48/000000/maestro.png" alt="Maestro" height="30">
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- PayPal -->
-                            <div class="tab-pane fade" id="paypal" role="tabpanel">
-                                <div class="text-center py-5">
-                                    <img src="https://www.paypalobjects.com/webstatic/mktg/logo/pp_cc_mark_111x69.jpg" alt="PayPal" height="50">
-                                    <p class="mt-3">Verrai reindirizzato a PayPal per completare il pagamento in sicurezza.</p>
-                                </div>
-                            </div>
-                            
-                            <!-- Link Payment -->
-                            <div class="tab-pane fade" id="link" role="tabpanel">
-                                <div class="alert alert-info">
-                                    <i class="bi bi-info-circle me-2"></i>
-                                    Con Stripe Link puoi salvare i tuoi dati di pagamento per acquisti più veloci.
-                                </div>
-                                <div class="mb-3">
-                                    <label class="form-label">Email per Link</label>
-                                    <input type="email" class="form-control" id="linkEmail" placeholder="tua@email.com">
-                                </div>
-                                <p class="text-muted small">
-                                    Riceverai un codice di verifica via SMS per completare il pagamento.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Terms and Conditions -->
-                <div class="card">
-                    <div class="card-body">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="terms" required>
-                            <label class="form-check-label" for="terms">
-                                Accetto i <a href="#">Termini e Condizioni</a> e la <a href="#">Privacy Policy</a> *
-                            </label>
-                        </div>
-                        
-                        <div class="form-check mt-2">
-                            <input class="form-check-input" type="checkbox" id="newsletter">
-                            <label class="form-check-label" for="newsletter">
-                                Desidero ricevere offerte e novità via email
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Right Column - Order Summary -->
-            <div class="col-lg-4">
-                <div class="card position-sticky" style="top: 20px;">
-                    <div class="card-body">
-                        <h5 class="card-title mb-4">Riepilogo Ordine</h5>
-                        
-                        <!-- Cart Items -->
-                        <div id="checkout-items">
-                            <!-- Dynamic items will be loaded here -->
-                        </div>
-                        
-                        <hr>
-                        
-                        <!-- Totals -->
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Subtotale</span>
-                            <span id="checkout-subtotal">€0.00</span>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between mb-2" id="discount-row" style="display: none;">
-                            <span class="text-success">Sconto Abbonamento (-10%)</span>
-                            <span class="text-success" id="checkout-discount">-€0.00</span>
-                        </div>
-                        
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Spedizione</span>
-                            <span id="checkout-shipping">€0.00</span>
-                        </div>
-                        
-                        <hr>
-                        
-                        <div class="d-flex justify-content-between mb-4">
-                            <strong>Totale</strong>
-                            <strong id="checkout-total">€0.00</strong>
-                        </div>
-                        
-                        <!-- Complete Order Button -->
-                        <button id="complete-order" class="btn btn-primary w-100 btn-lg" onclick="processPayment()">
-                            <span id="button-text">Completa Ordine</span>
-                            <span id="spinner" class="spinner-border spinner-border-sm ms-2 d-none" role="status">
-                                <span class="visually-hidden">Processing...</span>
-                            </span>
-                        </button>
-                        
-                        <!-- Security -->
-                        <div class="text-center mt-3">
-                            <small class="text-muted">
-                                <i class="bi bi-shield-check me-1"></i>Pagamento sicuro con SSL
-                            </small>
-                        </div>
-                        
-                        <!-- Stripe Badge -->
-                        <div class="text-center mt-2">
-                            <small class="text-muted">Powered by</small><br>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/ba/Stripe_Logo%2C_revised_2016.svg" alt="Stripe" height="30">
-                        </div>
-                    </div>
-                </div>
+                <!-- Pay Button -->
+                <button id="complete-order" class="btn btn-primary w-100 btn-lg mt-4">
+                    Completa Ordine
+                </button>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="mt-5">
-        <div class="container">
-            <div class="text-center py-3">
-                <small class="text-white-50">© 2024 Pappa Fresh. Tutti i diritti riservati.</small>
-            </div>
-        </div>
-    </footer>
-
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Custom JS -->
-    <script src="script.js"></script>
+    <!-- Stripe + JS -->
     <script>
-        // Initialize Stripe
-        // INSERIRE QUI LA TUA STRIPE PUBLIC KEY
-        const stripe = Stripe('pk_test_YOUR_STRIPE_PUBLIC_KEY');
+        const stripe = Stripe("pk_test_YOUR_PUBLISHABLE_KEY"); // ✅ Replace with publishable key
         const elements = stripe.elements();
-        
-        // Create card element
-        const cardElement = elements.create('card', {
-            style: {
-                base: {
-                    fontSize: '16px',
-                    color: '#424770',
-                    '::placeholder': {
-                        color: '#aab7c4',
+        const cardElement = elements.create("card");
+        cardElement.mount("#card-element");
+
+        // Display card errors
+        cardElement.on("change", function(event) {
+            document.getElementById("card-errors").textContent = event.error ? event.error.message : "";
+        });
+
+        document.getElementById("complete-order").addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            // Call backend to create PaymentIntent
+            const response = await fetch("/create-payment-intent", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ amount: 1000 }) // €10.00 for demo
+            });
+            const { clientSecret } = await response.json();
+
+            // Confirm card payment
+            const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+                payment_method: {
+                    card: cardElement,
+                    billing_details: {
+                        name: document.getElementById("firstName").value + " " + document.getElementById("lastName").value,
+                        email: document.getElementById("email").value,
                     },
                 },
-                invalid: {
-                    color: '#9e2146',
-                },
-            },
-        });
-        
-        // Mount card element
-        cardElement.mount('#card-element');
-        
-        // Handle card errors
-        cardElement.on('change', function(event) {
-            const displayError = document.getElementById('card-errors');
-            if (event.error) {
-                displayError.textContent = event.error.message;
-            } else {
-                displayError.textContent = '';
+            });
+
+            if (error) {
+                document.getElementById("card-errors").textContent = error.message;
+            } else if (paymentIntent.status === "succeeded") {
+                window.location.href = "/order-success";
             }
-        });
-        
-        // Load checkout data on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            loadCheckoutData();
-            updateCartBadge();
         });
     </script>
 </body>
