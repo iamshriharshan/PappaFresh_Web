@@ -888,38 +888,12 @@ async function processPayment() {
     // Check terms acceptance
     const terms = document.getElementById('terms');
     if (!terms.checked) {
-        // Show a more user-friendly error message
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'alert alert-danger mt-3';
-        errorDiv.innerHTML = '<i class="bi bi-exclamation-triangle me-2"></i>Devi accettare i termini e condizioni per procedere con l\'ordine.';
-        
-        // Remove any existing error messages
-        const existingError = document.querySelector('.alert-danger');
-        if (existingError) {
-            existingError.remove();
-        }
-        
-        // Add error message after the terms checkbox
-        terms.closest('.card').appendChild(errorDiv);
-        
-        // Scroll to error
-        errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        // Remove error after 5 seconds
-        setTimeout(() => {
-            if (errorDiv.parentNode) {
-                errorDiv.remove();
-            }
-        }, 5000);
-        
+        showTermsError();
         return;
     }
     
-    // Remove any existing error messages
-    const existingError = document.querySelector('.alert-danger');
-    if (existingError) {
-        existingError.remove();
-    }
+    // Clear any existing errors
+    clearErrors();
     
     // Show loading state
     if (button) button.disabled = true;
@@ -928,31 +902,43 @@ async function processPayment() {
     
     try {
         // Get the active payment method
-        const activeTab = document.querySelector('.nav-link.active').id;
+        const activeTab = document.querySelector('.nav-link.active')?.id || 'card-tab';
         
         let paymentSuccess = false;
         
         if (activeTab === 'card-tab') {
             // Handle card payment with Stripe
-            if (typeof stripe !== 'undefined' && typeof cardElement !== 'undefined') {
+            if (typeof stripe !== 'undefined' && typeof cardElement !== 'undefined' && stripe && cardElement) {
                 const {token, error} = await stripe.createToken(cardElement);
                 
                 if (error) {
                     throw new Error(error.message);
                 } else {
-                    // In a real implementation, you would send the token to your server
+                    // In production, send token to your server for processing
                     console.log('Payment token:', token.id);
-                    paymentSuccess = true;
+                    
+                    // Simulate server processing
+                    const response = await simulatePaymentProcessing(token);
+                    if (response.success) {
+                        paymentSuccess = true;
+                    } else {
+                        throw new Error(response.error || 'Payment processing failed');
+                    }
                 }
             } else {
-                // Fallback for demo purposes
-                paymentSuccess = true;
+                // Fallback validation for demo
+                const cardElement = document.getElementById('card-element');
+                if (!cardElement || cardElement.textContent.trim() === '') {
+                    throw new Error('Please enter your card details');
+                } else {
+                    paymentSuccess = true;
+                }
             }
         } else if (activeTab === 'paypal-tab') {
-            // Handle PayPal payment (mock)
+            // Handle PayPal payment (demo)
             paymentSuccess = true;
         } else if (activeTab === 'link-tab') {
-            // Handle Link payment (mock)
+            // Handle Link payment (demo)
             paymentSuccess = true;
         }
         
@@ -968,32 +954,69 @@ async function processPayment() {
         }
         
     } catch (error) {
-        // Handle payment error
         console.error('Payment error:', error);
-        
+        showPaymentError(error.message);
+    } finally {
         // Reset button state
         if (button) button.disabled = false;
         if (buttonText) buttonText.textContent = 'Completa Ordine';
         if (spinner) spinner.classList.add('d-none');
-        
-        // Show error message
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'alert alert-danger mt-3';
-        errorDiv.innerHTML = `<i class="bi bi-exclamation-triangle me-2"></i>Errore nel pagamento: ${error.message}. Riprova o contatta l'assistenza.`;
-        
-        // Add error message
-        button.parentNode.appendChild(errorDiv);
-        
-        // Scroll to error
-        errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        
-        // Remove error after 8 seconds
-        setTimeout(() => {
-            if (errorDiv.parentNode) {
-                errorDiv.remove();
-            }
-        }, 8000);
     }
+}
+
+// Helper functions for error handling
+function showTermsError() {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'alert alert-danger mt-3 payment-error';
+    errorDiv.innerHTML = '<i class="bi bi-exclamation-triangle me-2"></i>Devi accettare i termini e condizioni per procedere con l\'ordine.';
+    
+    const terms = document.getElementById('terms');
+    terms.closest('.card').appendChild(errorDiv);
+    
+    errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    setTimeout(() => {
+        if (errorDiv.parentNode) {
+            errorDiv.remove();
+        }
+    }, 5000);
+}
+
+function showPaymentError(message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'alert alert-danger mt-3 payment-error';
+    errorDiv.innerHTML = `<i class="bi bi-exclamation-triangle me-2"></i>Errore nel pagamento: ${message}. Riprova o contatta l'assistenza.`;
+    
+    const button = document.getElementById('complete-order');
+    button.parentNode.appendChild(errorDiv);
+    
+    errorDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    setTimeout(() => {
+        if (errorDiv.parentNode) {
+            errorDiv.remove();
+        }
+    }, 8000);
+}
+
+function clearErrors() {
+    const existingErrors = document.querySelectorAll('.payment-error');
+    existingErrors.forEach(error => error.remove());
+}
+
+// Simulate payment processing for demo
+async function simulatePaymentProcessing(token) {
+    // In production, this would be a real API call to your server
+    return new Promise((resolve) => {
+        setTimeout(() => {
+            // Simulate 95% success rate
+            const success = Math.random() > 0.05;
+            resolve({
+                success: success,
+                error: success ? null : 'Card declined. Please try a different card.'
+            });
+        }, 1000);
+    });
 }
 
 // Chat functionality

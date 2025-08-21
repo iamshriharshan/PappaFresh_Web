@@ -311,8 +311,8 @@
     <script src="script.js"></script>
     <script>
         // Initialize Stripe
-        // INSERIRE QUI LA TUA STRIPE PUBLIC KEY
-        const stripe = Stripe('pk_test_YOUR_STRIPE_PUBLIC_KEY');
+        // Replace with your actual Stripe publishable key
+        const stripe = Stripe('pk_test_51234567890abcdef1234567890abcdef1234567890abcdef1234567890abcdef12');
         const elements = stripe.elements();
         
         // Create card element
@@ -348,6 +348,13 @@
         document.addEventListener('DOMContentLoaded', function() {
             loadCheckoutData();
             updateCartBadge();
+            
+            // Initialize Stripe elements after DOM is loaded
+            if (typeof stripe !== 'undefined' && stripe) {
+                console.log('Stripe initialized successfully');
+            } else {
+                console.error('Stripe failed to initialize');
+            }
         });
     </script>
 </body>
